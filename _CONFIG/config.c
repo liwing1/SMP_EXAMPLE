@@ -30,61 +30,93 @@ void PinConfig(void)
     GPIO_setOutputLowOnPin(LED_PORT_3, LED_PIN_2);
     GPIO_setOutputLowOnPin(LED_PORT_3, LED_PIN_3);
 
+    GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN0);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
+
 }
 
 void ClockConfig(void)
 {
-    // Set VCore = 1 for 12MHz clock
-    PMM_setVCore(PMM_CORE_LEVEL_3);
+//    // Set VCore = 1 for 12MHz clock
+//    PMM_setVCore(PMM_CORE_LEVEL_3);
+//
+//    //    //ACLK, MCLK, MCLK set out to pins
+////    GPIO_setAsPeripheralModuleFunctionOutputPin(
+////        GPIO_PORT_P11,
+////        GPIO_PIN0 + GPIO_PIN1 + GPIO_PIN2
+////        );
+//
+//    // Initialize FLL based on REFO = 32728 Hz
+//    UCS_initClockSignal(
+//        UCS_FLLREF,
+//        UCS_REFOCLK_SELECT,
+//        UCS_CLOCK_DIVIDER_1
+//    );
+//
+//    // Initialize DCO based on FLL
+//    // UCS_DCO_FREQUENCY = FLL_FREQUENCY * UCS_DCO_RATIO
+//    UCS_initFLLSettle(
+//        UCS_DCO_FREQUENCY,
+//        UCS_DCO_RATIO
+//    );
+//
+//    // Initialize ACLK based on REFO
+//    UCS_initClockSignal(
+//        UCS_ACLK,
+//        UCS_REFOCLK_SELECT,
+//        UCS_CLOCK_DIVIDER_1
+//    );
+//
+//    // Initialize MCLK based on DCO
+//    UCS_initClockSignal(
+//        UCS_MCLK,
+//        UCS_DCOCLK_SELECT,
+//        UCS_CLOCK_DIVIDER_1
+//    );
+//
+//    // Initialize SMCLK based on DCO
+//    UCS_initClockSignal(
+//        UCS_SMCLK,
+//        UCS_DCOCLK_SELECT,
+//        UCS_CLOCK_DIVIDER_1
+//    );
 
-    //    //ACLK, MCLK, MCLK set out to pins
-//    GPIO_setAsPeripheralModuleFunctionOutputPin(
-//        GPIO_PORT_P11,
-//        GPIO_PIN0 + GPIO_PIN1 + GPIO_PIN2
-//        );
+    /*
+     * TESTESTESTES
+     * */
+    PMM_setVCore(PMM_CORE_LEVEL_3); //    SetVCore(3);
+    __bis_SR_register(SCG0);                        /* Disable the FLL control loop */
+    UCSCTL6 = (UCSCTL6 | XT1DRIVE_3);               /* Highest drive setting for XT1 startup */
+    while (SFRIFG1 & OFIFG)
+    {
+        /* Check OFIFG fault flag */
+        UCSCTL7 &= ~(DCOFFG | XT1LFOFFG | XT2OFFG); /* Clear OSC fault flags */
+        SFRIFG1 &= ~OFIFG;                          /* Clear OFIFG fault flag */
+    }
+    UCSCTL6 = (UCSCTL6 & ~(XT1DRIVE_3));            /* Reduce drive to something weaker */
 
-    // Initialize FLL based on REFO = 32728 Hz
-    UCS_initClockSignal(
-        UCS_FLLREF,
-        UCS_REFOCLK_SELECT,
-        UCS_CLOCK_DIVIDER_1
-    );
+    UCSCTL0 = 0;
+    UCSCTL1 = DCORSEL_6;                            /* Set RSELx for DCO = 25MHz */
+    UCSCTL2 = FLLD_2 | (192 - 1);                   /* Set DCO Multiplier for 25MHz */
+                                                    /* Set FLL to 32768*4*192 => 25165824Hz */
+    __bic_SR_register(SCG0);                        /* Enable the FLL control loop */
 
-    // Initialize DCO based on FLL
-    // UCS_DCO_FREQUENCY = FLL_FREQUENCY * UCS_DCO_RATIO
-    UCS_initFLLSettle(
-        UCS_DCO_FREQUENCY,
-        UCS_DCO_RATIO
-    );
-
-    // Initialize ACLK based on REFO
-    UCS_initClockSignal(
-        UCS_ACLK,
-        UCS_REFOCLK_SELECT,
-        UCS_CLOCK_DIVIDER_1
-    );
-
-    // Initialize MCLK based on DCO
-    UCS_initClockSignal(
-        UCS_MCLK,
-        UCS_DCOCLK_SELECT,
-        UCS_CLOCK_DIVIDER_1
-    );
-
-    // Initialize SMCLK based on DCO
-    UCS_initClockSignal(
-        UCS_SMCLK,
-        UCS_DCOCLK_SELECT,
-        UCS_CLOCK_DIVIDER_1
-    );
+    UCSCTL5 |= DIVS__1;
+    UCSCTL4 = SELM__DCOCLK | SELS__DCOCLK | SELA__XT1CLK;     /* 24MHz MCLK, 24MHz SMCLK, 32KHz ACLK */
+    /*
+     * TESTESTESTES
+     * */
 }
+
 void UartConfig(void){
     // Configuração dos pinos UART (TX e RX)
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN2);
+    GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN3);
     GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN4);
     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN5);
 
     // Inicialização da UART
-    UART_init(EUSCI_A1_BASE, 115200);
+    UART_init(EUSCI_A0_BASE, 115200);
 
 }
 

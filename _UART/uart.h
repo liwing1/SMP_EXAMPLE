@@ -13,6 +13,7 @@
 void UART_init(uint16_t baseAddress, uint32_t baudRate);
 void UART_sendChar(uint16_t baseAddress, char data);
 char UART_receiveChar(uint16_t baseAddress);
+void UART_sendString(uint16_t baseAddress, uint8_t* str);
 
 
 #endif /* UART_UART_H_ */
