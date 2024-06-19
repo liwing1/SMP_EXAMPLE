@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v21.6.1                     
 ******************************************************************************
->> Linked Sun Jun 16 09:26:26 2024
+>> Linked Tue Jun 18 15:01:44 2024
 
 OUTPUT FILE NAME:   <projeto_SMP.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00004036
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000407c
 
 
 MEMORY CONFIGURATION
@@ -19,7 +19,7 @@ MEMORY CONFIGURATION
   INFOB                 00001900   00000080  00000000  00000080  RWIX
   INFOA                 00001980   00000080  00000000  00000080  RWIX
   RAM                   00001c00   00002000  00000072  00001f8e  RWIX
-  FLASH                 00004000   0000bf80  0000009e  0000bee2  RWIX
+  FLASH                 00004000   0000bf80  000000e4  0000be9c  RWIX
   INT00                 0000ff80   00000002  00000000  00000002  RWIX
   INT01                 0000ff82   00000002  00000000  00000002  RWIX
   INT02                 0000ff84   00000002  00000000  00000002  RWIX
@@ -84,7 +84,7 @@ MEMORY CONFIGURATION
   INT61                 0000fffa   00000002  00000002  00000000  RWIX
   INT62                 0000fffc   00000002  00000002  00000000  RWIX
   RESET                 0000fffe   00000002  00000002  00000000  RWIX
-  FLASH2                00010000   00013ff8  0000070c  000138ec  RWIX
+  FLASH2                00010000   00013ff8  0000071c  000138dc  RWIX
 
 
 SECTION ALLOCATION MAP
@@ -101,24 +101,25 @@ section   page    origin      length       input sections
                   00003bb4    0000004c     --HOLE--
 
 .text:_isr 
-*          0    00004000    0000005a     
-                  00004000    00000036     main.obj (.text:_isr:USCI_A0_ISR)
-                  00004036    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
-                  00004052    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
+*          0    00004000    000000a0     
+                  00004000    0000003e     main.obj (.text:_isr:USCI_A0_ISR)
+                  0000403e    0000003e     main.obj (.text:_isr:USCI_A2_ISR)
+                  0000407c    0000001c     rts430x_lc_rd_eabi.lib : boot.c.obj (.text:_isr:_c_int00_noargs)
+                  00004098    00000008                            : isr_trap.asm.obj (.text:_isr:__TI_ISR_TRAP)
 
-.cinit     0    00004086    00000018     
-                  00004086    00000008     (.cinit..data.load) [load image, compression = lzss]
-                  0000408e    00000008     (__TI_handler_table)
-                  00004096    00000008     (__TI_cinit_table)
+.cinit     0    000040cc    00000018     
+                  000040cc    00000008     (.cinit..data.load) [load image, compression = lzss]
+                  000040d4    00000008     (__TI_handler_table)
+                  000040dc    00000008     (__TI_cinit_table)
 
 .binit     0    00004000    00000000     
 
 .init_array 
 *          0    00004000    00000000     UNINITIALIZED
 
-.const     0    0000405a    0000002c     
-                  0000405a    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
-                  00004076    00000010     uart.obj (.const:$P$T0$1)
+.const     0    000040a0    0000002c     
+                  000040a0    0000001c     gpio.obj (.const:GPIO_PORT_TO_BASE)
+                  000040bc    00000010     uart.obj (.const:$P$T0$1)
 
 RTC        0    0000ffd0    00000002     
                   0000ffd0    00000002     rts430x_lc_rd_eabi.lib : int40.asm.obj (.int40)
@@ -163,7 +164,7 @@ AUX        0    0000ffe6    00000002
                   0000ffe6    00000002     rts430x_lc_rd_eabi.lib : int51.asm.obj (.int51)
 
 USCI_A2    0    0000ffe8    00000002     
-                  0000ffe8    00000002     rts430x_lc_rd_eabi.lib : int52.asm.obj (.int52)
+                  0000ffe8    00000002     main.obj (.int52)
 
 USCI_A1    0    0000ffea    00000002     
                   0000ffea    00000002     rts430x_lc_rd_eabi.lib : int53.asm.obj (.int53)
@@ -200,51 +201,51 @@ SYSNMI     0    0000fffc    00000002
 .reset     0    0000fffe    00000002     
                   0000fffe    00000002     rts430x_lc_rd_eabi.lib : boot.c.obj (.reset)
 
-.text      0    00010000    0000070c     
+.text      0    00010000    0000071c     
                   00010000    000000e0     pmm.obj (.text:PMM_setVCoreUp)
                   000100e0    000000a2     pmm.obj (.text:PMM_setVCoreDown)
                   00010182    0000009a     eusci_a_uart.obj (.text:EUSCI_A_UART_init)
-                  0001021c    00000076     config.obj (.text:PinConfig)
-                  00010292    00000076     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00010308    00000070     led.obj (.text:PiscaLed)
-                  00010378    0000005a     main.obj (.text:main)
-                  000103d2    00000058     main.obj (.text:RS485_sendBuf)
-                  0001042a    00000054     rts430x_lc_rd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
-                  0001047e    00000052     pmm.obj (.text:PMM_setVCore)
-                  000104d0    0000004c     config.obj (.text:ClockConfig)
-                  0001051c    00000036     uart.obj (.text:UART_init)
-                  00010552    00000034     config.obj (.text:UartConfig)
-                  00010586    00000028     gpio.obj (.text:GPIO_setAsOutputPin)
-                  000105ae    00000028     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionInputPin)
-                  000105d6    00000028     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionOutputPin)
-                  000105fe    00000022     eusci_a_uart.obj (.text:EUSCI_A_UART_enableInterrupt)
-                  00010620    00000022     eusci_a_uart.obj (.text:EUSCI_A_UART_transmitData)
-                  00010642    0000001e     uart.obj (.text:UART_sendChar)
-                  00010660    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
-                  0001067c    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
-                  00010698    0000001c     gpio.obj (.text:GPIO_toggleOutputOnPin)
-                  000106b4    00000016     rts430x_lc_rd_eabi.lib : memset.c.obj (.text:memset)
-                  000106ca    00000014                            : memcpy.c.obj (.text:memcpy)
-                  000106de    00000012                            : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  000106f0    0000000a     eusci_a_uart.obj (.text:EUSCI_A_UART_getInterruptStatus)
-                  000106fa    00000006     eusci_a_uart.obj (.text:EUSCI_A_UART_enable)
-                  00010700    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
-                  00010706    00000004                            : pre_init.c.obj (.text:_system_pre_init)
-                  0001070a    00000002                            : startup.c.obj (.text:_system_post_cinit)
+                  0001021c    00000086     config.obj (.text:PinConfig)
+                  000102a2    00000076     rts430x_lc_rd_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00010318    00000070     led.obj (.text:PiscaLed)
+                  00010388    00000066     main.obj (.text:main)
+                  000103ee    00000054     rts430x_lc_rd_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit_hold_wdt:__TI_auto_init_nobinit_nopinit_hold_wdt)
+                  00010442    00000052     pmm.obj (.text:PMM_setVCore)
+                  00010494    00000050     main.obj (.text:RS485_sendBuf)
+                  000104e4    0000004c     config.obj (.text:ClockConfig)
+                  00010530    00000048     config.obj (.text:UartConfig)
+                  00010578    00000036     uart.obj (.text:UART_init)
+                  000105ae    00000028     gpio.obj (.text:GPIO_setAsOutputPin)
+                  000105d6    00000028     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionInputPin)
+                  000105fe    00000028     gpio.obj (.text:GPIO_setAsPeripheralModuleFunctionOutputPin)
+                  00010626    00000022     eusci_a_uart.obj (.text:EUSCI_A_UART_enableInterrupt)
+                  00010648    00000022     eusci_a_uart.obj (.text:EUSCI_A_UART_transmitData)
+                  0001066a    0000001c     gpio.obj (.text:GPIO_setOutputHighOnPin)
+                  00010686    0000001c     gpio.obj (.text:GPIO_setOutputLowOnPin)
+                  000106a2    0000001c     gpio.obj (.text:GPIO_toggleOutputOnPin)
+                  000106be    00000016     rts430x_lc_rd_eabi.lib : memset.c.obj (.text:memset)
+                  000106d4    00000014                            : memcpy.c.obj (.text:memcpy)
+                  000106e8    00000012                            : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  000106fa    0000000a     eusci_a_uart.obj (.text:EUSCI_A_UART_getInterruptStatus)
+                  00010704    00000006     eusci_a_uart.obj (.text:EUSCI_A_UART_enable)
+                  0001070a    00000006     uart.obj (.text:UART_sendChar)
+                  00010710    00000006     rts430x_lc_rd_eabi.lib : exit.c.obj (.text:abort)
+                  00010716    00000004                            : pre_init.c.obj (.text:_system_pre_init)
+                  0001071a    00000002                            : startup.c.obj (.text:_system_post_cinit)
 
 MODULE SUMMARY
 
        Module                       code   ro data   rw data
        ------                       ----   -------   -------
     .\
-       main.obj                     232    2         34     
+       main.obj                     306    4         34     
     +--+----------------------------+------+---------+---------+
-       Total:                       232    2         34     
+       Total:                       306    4         34     
                                                             
     .\_CONFIG\
-       config.obj                   246    0         0      
+       config.obj                   282    0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       246    0         0      
+       Total:                       282    0         0      
                                                             
     .\_LED\
        led.obj                      112    0         0      
@@ -252,9 +253,9 @@ MODULE SUMMARY
        Total:                       112    0         0      
                                                             
     .\_UART\
-       uart.obj                     84     16        0      
+       uart.obj                     60     16        0      
     +--+----------------------------+------+---------+---------+
-       Total:                       84     16        0      
+       Total:                       60     16        0      
                                                             
     .\driverlib\MSP430F5xx_6xx\
        pmm.obj                      468    0         0      
@@ -285,7 +286,6 @@ MODULE SUMMARY
        int49.asm.obj                0      2         0      
        int50.asm.obj                0      2         0      
        int51.asm.obj                0      2         0      
-       int52.asm.obj                0      2         0      
        int53.asm.obj                0      2         0      
        int54.asm.obj                0      2         0      
        int55.asm.obj                0      2         0      
@@ -297,23 +297,23 @@ MODULE SUMMARY
        int62.asm.obj                0      2         0      
        startup.c.obj                2      0         0      
     +--+----------------------------+------+---------+---------+
-       Total:                       310    46        0      
+       Total:                       310    44        0      
                                                             
        Stack:                       0      0         80     
        Linker Generated:            0      24        0      
     +--+----------------------------+------+---------+---------+
-       Grand Total:                 1894   116       114    
+       Grand Total:                 1980   116       114    
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00004096 records: 1, size/record: 8, table size: 8
-	.data: load addr=00004086, load size=00000008 bytes, run addr=00001c00, run size=00000022 bytes, compression=lzss
+__TI_cinit_table @ 000040dc records: 1, size/record: 8, table size: 8
+	.data: load addr=000040cc, load size=00000008 bytes, run addr=00001c00, run size=00000022 bytes, compression=lzss
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 0000408e records: 2, size/record: 4, table size: 8
+__TI_handler_table @ 000040d4 records: 2, size/record: 4, table size: 8
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 
@@ -393,7 +393,7 @@ address   name
 00000486  BAKMEM3_L                                  
 000004be  BCD2BIN                                    
 000004bc  BIN2BCD                                    
-00010700  C$$EXIT                                    
+00010710  C$$EXIT                                    
 00000150  CRCDI                                      
 00000152  CRCDIRB                                    
 00000153  CRCDIRB_H                                  
@@ -406,7 +406,7 @@ address   name
 00000156  CRCRESR                                    
 00000157  CRCRESR_H                                  
 00000156  CRCRESR_L                                  
-000104d0  ClockConfig                                
+000104e4  ClockConfig                                
 00000510  DMA0CTL                                    
 00000516  DMA0DA                                     
 00000518  DMA0DAH                                    
@@ -437,11 +437,11 @@ address   name
 00000506  DMACTL3                                    
 00000508  DMACTL4                                    
 0000050e  DMAIV                                      
-000106fa  EUSCI_A_UART_enable                        
-000105fe  EUSCI_A_UART_enableInterrupt               
-000106f0  EUSCI_A_UART_getInterruptStatus            
+00010704  EUSCI_A_UART_enable                        
+00010626  EUSCI_A_UART_enableInterrupt               
+000106fa  EUSCI_A_UART_getInterruptStatus            
 00010182  EUSCI_A_UART_init                          
-00010620  EUSCI_A_UART_transmitData                  
+00010648  EUSCI_A_UART_transmitData                  
 00000140  FCTL1                                      
 00000141  FCTL1_H                                    
 00000140  FCTL1_L                                    
@@ -451,12 +451,12 @@ address   name
 00000146  FCTL4                                      
 00000147  FCTL4_H                                    
 00000146  FCTL4_L                                    
-00010586  GPIO_setAsOutputPin                        
-000105ae  GPIO_setAsPeripheralModuleFunctionInputPin 
-000105d6  GPIO_setAsPeripheralModuleFunctionOutputPin
-00010660  GPIO_setOutputHighOnPin                    
-0001067c  GPIO_setOutputLowOnPin                     
-00010698  GPIO_toggleOutputOnPin                     
+000105ae  GPIO_setAsOutputPin                        
+000105d6  GPIO_setAsPeripheralModuleFunctionInputPin 
+000105fe  GPIO_setAsPeripheralModuleFunctionOutputPin
+0001066a  GPIO_setOutputHighOnPin                    
+00010686  GPIO_setOutputLowOnPin                     
+000106a2  GPIO_toggleOutputOnPin                     
 00000a40  LCDBM1                                     
 00000a49  LCDBM10                                    
 00000a4a  LCDBM11                                    
@@ -769,11 +769,11 @@ address   name
 0000012e  PMMRIE                                     
 0000012f  PMMRIE_H                                   
 0000012e  PMMRIE_L                                   
-0001047e  PMM_setVCore                               
+00010442  PMM_setVCore                               
 000100e0  PMM_setVCoreDown                           
 00010000  PMM_setVCoreUp                             
 0001021c  PinConfig                                  
-00010308  PiscaLed                                   
+00010318  PiscaLed                                   
 00000158  RCCTL0                                     
 00000159  RCCTL0_H                                   
 00000158  RCCTL0_L                                   
@@ -798,7 +798,7 @@ address   name
 000004ca  RESLO                                      
 000004cb  RESLO_H                                    
 000004ca  RESLO_L                                    
-000103d2  RS485_sendBuf                              
+00010494  RS485_sendBuf                              
 000004ba  RTCADOWDAY                                 
 000004bb  RTCADOWDAY_H                               
 000004ba  RTCADOWDAY_L                               
@@ -1005,8 +1005,8 @@ address   name
 00000460  TA3EX0                                     
 0000046e  TA3IV                                      
 00000450  TA3R                                       
-0001051c  UART_init                                  
-00010642  UART_sendChar                              
+00010578  UART_init                                  
+0001070a  UART_sendChar                              
 000005d0  UCA0ABCTL                                  
 000005c6  UCA0BRW                                    
 000005c7  UCA0BRW_H                                  
@@ -1174,21 +1174,22 @@ address   name
 00000171  UCSCTL8_H                                  
 00000170  UCSCTL8_L                                  
 00004000  USCI_A0_ISR                                
-00010552  UartConfig                                 
+0000403e  USCI_A2_ISR                                
+00010530  UartConfig                                 
 0000015c  WDTCTL                                     
 0000015d  WDTCTL_H                                   
 0000015c  WDTCTL_L                                   
 00003c00  __STACK_END                                
 00000050  __STACK_SIZE                               
-00004096  __TI_CINIT_Base                            
-0000409e  __TI_CINIT_Limit                           
-0000409e  __TI_CINIT_Warm                            
-0000408e  __TI_Handler_Table_Base                    
-00004096  __TI_Handler_Table_Limit                   
-00004052  __TI_ISR_TRAP                              
-0001042a  __TI_auto_init_nobinit_nopinit_hold_wdt    
-00010292  __TI_decompress_lzss                       
-000106de  __TI_decompress_none                       
+000040dc  __TI_CINIT_Base                            
+000040e4  __TI_CINIT_Limit                           
+000040e4  __TI_CINIT_Warm                            
+000040d4  __TI_Handler_Table_Base                    
+000040dc  __TI_Handler_Table_Limit                   
+00004098  __TI_ISR_TRAP                              
+000103ee  __TI_auto_init_nobinit_nopinit_hold_wdt    
+000102a2  __TI_decompress_lzss                       
+000106e8  __TI_decompress_none                       
 0000ffd0  __TI_int40                                 
 0000ffd2  __TI_int41                                 
 0000ffd4  __TI_int42                                 
@@ -1216,15 +1217,15 @@ ffffffff  __TI_pprof_out_hndl
 ffffffff  __TI_prof_data_size                        
 ffffffff  __TI_prof_data_start                       
 ffffffff  __c_args__                                 
-00004036  _c_int00_noargs                            
+0000407c  _c_int00_noargs                            
 0000fffe  _reset_vector                              
 00003bb0  _stack                                     
-0001070a  _system_post_cinit                         
-00010706  _system_pre_init                           
-00010700  abort                                      
-00010378  main                                       
-000106ca  memcpy                                     
-000106b4  memset                                     
+0001071a  _system_post_cinit                         
+00010716  _system_pre_init                           
+00010710  abort                                      
+00010388  main                                       
+000106d4  memcpy                                     
+000106be  memset                                     
 00001c00  rx_bytes                                   
 00001c20  rx_ptr                                     
 
@@ -2072,13 +2073,14 @@ address   name
 00003bb0  _stack                                     
 00003c00  __STACK_END                                
 00004000  USCI_A0_ISR                                
-00004036  _c_int00_noargs                            
-00004052  __TI_ISR_TRAP                              
-0000408e  __TI_Handler_Table_Base                    
-00004096  __TI_CINIT_Base                            
-00004096  __TI_Handler_Table_Limit                   
-0000409e  __TI_CINIT_Limit                           
-0000409e  __TI_CINIT_Warm                            
+0000403e  USCI_A2_ISR                                
+0000407c  _c_int00_noargs                            
+00004098  __TI_ISR_TRAP                              
+000040d4  __TI_Handler_Table_Base                    
+000040dc  __TI_CINIT_Base                            
+000040dc  __TI_Handler_Table_Limit                   
+000040e4  __TI_CINIT_Limit                           
+000040e4  __TI_CINIT_Warm                            
 0000ffd0  __TI_int40                                 
 0000ffd2  __TI_int41                                 
 0000ffd4  __TI_int42                                 
@@ -2107,36 +2109,36 @@ address   name
 000100e0  PMM_setVCoreDown                           
 00010182  EUSCI_A_UART_init                          
 0001021c  PinConfig                                  
-00010292  __TI_decompress_lzss                       
-00010308  PiscaLed                                   
-00010378  main                                       
-000103d2  RS485_sendBuf                              
-0001042a  __TI_auto_init_nobinit_nopinit_hold_wdt    
-0001047e  PMM_setVCore                               
-000104d0  ClockConfig                                
-0001051c  UART_init                                  
-00010552  UartConfig                                 
-00010586  GPIO_setAsOutputPin                        
-000105ae  GPIO_setAsPeripheralModuleFunctionInputPin 
-000105d6  GPIO_setAsPeripheralModuleFunctionOutputPin
-000105fe  EUSCI_A_UART_enableInterrupt               
-00010620  EUSCI_A_UART_transmitData                  
-00010642  UART_sendChar                              
-00010660  GPIO_setOutputHighOnPin                    
-0001067c  GPIO_setOutputLowOnPin                     
-00010698  GPIO_toggleOutputOnPin                     
-000106b4  memset                                     
-000106ca  memcpy                                     
-000106de  __TI_decompress_none                       
-000106f0  EUSCI_A_UART_getInterruptStatus            
-000106fa  EUSCI_A_UART_enable                        
-00010700  C$$EXIT                                    
-00010700  abort                                      
-00010706  _system_pre_init                           
-0001070a  _system_post_cinit                         
+000102a2  __TI_decompress_lzss                       
+00010318  PiscaLed                                   
+00010388  main                                       
+000103ee  __TI_auto_init_nobinit_nopinit_hold_wdt    
+00010442  PMM_setVCore                               
+00010494  RS485_sendBuf                              
+000104e4  ClockConfig                                
+00010530  UartConfig                                 
+00010578  UART_init                                  
+000105ae  GPIO_setAsOutputPin                        
+000105d6  GPIO_setAsPeripheralModuleFunctionInputPin 
+000105fe  GPIO_setAsPeripheralModuleFunctionOutputPin
+00010626  EUSCI_A_UART_enableInterrupt               
+00010648  EUSCI_A_UART_transmitData                  
+0001066a  GPIO_setOutputHighOnPin                    
+00010686  GPIO_setOutputLowOnPin                     
+000106a2  GPIO_toggleOutputOnPin                     
+000106be  memset                                     
+000106d4  memcpy                                     
+000106e8  __TI_decompress_none                       
+000106fa  EUSCI_A_UART_getInterruptStatus            
+00010704  EUSCI_A_UART_enable                        
+0001070a  UART_sendChar                              
+00010710  C$$EXIT                                    
+00010710  abort                                      
+00010716  _system_pre_init                           
+0001071a  _system_post_cinit                         
 ffffffff  __TI_pprof_out_hndl                        
 ffffffff  __TI_prof_data_size                        
 ffffffff  __TI_prof_data_start                       
 ffffffff  __c_args__                                 
 
-[905 symbols]
+[906 symbols]

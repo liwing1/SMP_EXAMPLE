@@ -59,7 +59,7 @@
 
 void PinConfig(void);
 void ClockConfig(void);
-void UartConfig(void);
+void UartConfig(uint16_t uart_config);
 void TimerConfig(void);
 void AdcDMAConfig(void);
 uint16_t ADC(void);

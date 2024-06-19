@@ -33,6 +33,8 @@ void PinConfig(void)
     GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN0);
     GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN0);
 
+    GPIO_setAsOutputPin(GPIO_PORT_P4, GPIO_PIN1);
+    GPIO_setOutputLowOnPin(GPIO_PORT_P4, GPIO_PIN1);
 }
 
 void ClockConfig(void)
@@ -108,15 +110,18 @@ void ClockConfig(void)
      * */
 }
 
-void UartConfig(void){
+void UartConfig(uint16_t uart_config){
     // Configuração dos pinos UART (TX e RX)
     GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN2);
     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN3);
     GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P1, GPIO_PIN4);
     GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P1, GPIO_PIN5);
 
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P2, GPIO_PIN2); //UCA2RX
+    GPIO_setAsPeripheralModuleFunctionOutputPin(GPIO_PORT_P2, GPIO_PIN3); //UCA2TX
+
     // Inicialização da UART
-    UART_init(EUSCI_A0_BASE, 115200);
+    UART_init(uart_config, 115200);
 
 }
 
